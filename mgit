@@ -11,6 +11,8 @@
 #
 # --                                                            # }}}1
 
+vsn='0.1.0'
+
 usage='mgit { {DIR,FIND,SUB} <dir> | {DIR,FIND,SUB}S <dir(s)> END'
 usage+=' | ENV | IN }'$'\n''            <git-cmd> [ <arg(s)> ]'
 
@@ -82,7 +84,9 @@ function do_I   () { git_args "$@"; get_sin; }
 
 # --
 
-[ "$#" -eq 0 -o "$1" == help ] && fail
+if [ "$#" -eq 0 -o "$1" == help ]; then
+  echo "mgit version $vsn"$'\n\n'"usage: $usage"; exit 0
+fi
 
 cmd="$1"; shift
 
