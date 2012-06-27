@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# --                                                            # {{{1
+#
+# File        : dev-scripts/mgit
+# Maintainer  : Felix C. Stegerman <flx@obfusk.net>
+# Date        : 2012-06-27
+#
+# Copyright   : Copyright (C) 2012  Felix C. Stegerman
+# Licence     : GPLv2
+#
+# --                                                            # }}}1
+
+function die () { echo "${2:-error}: $1" >&2; exit 1; }
+
+# --
+
+usage='mgit { {DIR,FIND,SUB} <dir> | {DIR,FIND,SUB}S <dir(s)> END'
+usage+=' | ENV | IN }'$'\n''            <git-cmd> [ <arg(s)> ]'
+
+function fail () {
+  local x; for x in "$@"; do echo "error: $x" >&2; done
+  die "$usage" usage
+}
+
+# --
+
+args=(); git_dirs=(); git_args=()
+
+# --
+
+function get_one () { args=( "$1" ); shift; git_args=( "$@" ); }
+
+function get_mny () {
+  while [ "$#" -gt 0 -a "$1" != END ]; do args+=( "$1" ); shift; done
+  [ "$1" == END ] || fail 'no END'; shift; git_args=( "$@" )
+}
+
+# --
+
+function get_drs () { git_dirs=( "${args[@]}" ); }
+
+function get_sin () {
+  while read -r; do git_dirs+=( "$REPLY" ); done
+}
+
+function get_fnd () {
+  [ "${#args[@]}" -gt 0 ] || fail 'no dirs to search'
+
+  get_sin < <(  find "${args[@]}" -name '.git' \
+                  | sed 's!/\.git$!!' | sort )
+}
+
+function get_sub () {                                           # {{{1
+  local x y
+  for x in "${args[@]}"; do
+    for y in "$x"/*; do [ -e "$y"/.git ] && git_dirs+=( "$y" ); done
+  done
+}                                                               # }}}1
+
+# --
+
+function do_D   () { get_one "$@"; get_drs; }
+function do_DS  () { get_mny "$@"; get_drs; }
+
+function do_F   () { get_one "$@"; get_fnd; }
+function do_FS  () { get_mny "$@"; get_fnd; }
+
+function do_S   () { get_one "$@"; get_sub; }
+function do_SS  () { get_mny "$@"; get_sub; }
+
+function do_E   () { git_args=( "$@" ); git_dirs=( $MGIT_DIRS ); }
+function do_I   () { git_args=( "$@" ); get_sin; }
+
+# --
+
+[ "$#" -eq 0 -o "$1" == help ] && fail
+[ "$#" -ge 2 ] || fail 'not enough arguments'
+
+cmd="$1"; shift
+
+if [[ "$cmd" =~ ^((D(IR)?|F(IND)?|S(UB)?)S?|E(NV)?|I(N)?)$ ]]; then
+  fn="$( echo "$cmd" | sed -E 's!^(.).*[^S](S?)$!\1\2!' )"
+  "do_$fn" "$@"
+else
+  fail "unknown mgit command \`$cmd'"
+fi
+
+[ "${#git_args[@]}" -gt 0 ] || fail 'no git command'
+
+# --
+
+for d in "${git_dirs[@]}"; do
+  echo "==> $d <=="
+  pushd "$d" > /dev/null || die "failed to pushd $d"
+    echo git "${git_args[@]}"
+  popd > /dev/null
+  echo
+done
+
+# vim: set tw=70 sw=2 sts=2 et fdm=marker :
