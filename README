@@ -1,0 +1,55 @@
+--                                                                {{{1
+
+File        : README
+Maintainer  : Felix C. Stegerman <flx@obfusk.net>
+Date        : 2012-06-27
+
+Copyright   : Copyright (C) 2012  Felix C. Stegerman
+Version     : v0.0.1
+
+--                                                                }}}1
+
+=== Description ===                                               {{{1
+
+  mgit - multi-dir git wrapper
+
+  ...
+                                                                  }}}1
+
+=== Usage ===                                                     {{{1
+
+  mgit <target(s)> <git-cmd> [ <arg(s)> ]
+
+
+  === Targets ===
+
+    DIR   <dir>                     # git in <dir>
+    FIND  <dir>                     # git in <dir>/**
+    SUB   <dir>                     # git in <dir>/*
+
+    DIRS  <dir1> [... <dirN>] END   # git in <dir1>   , ...
+    FINDS <dir1> [... <dirN>] END   # git in <dir1>/**, ...
+    SUBS  <dir1> [... <dirN>] END   # git in <dir1>/* , ...
+
+    ENV                             # git in $MGIT_DIRS
+    IN                              # git in <lines on STDIN>
+
+
+  FIND/FINDS/SUB/SUBS only use dirs w/ .git subdir.
+  FIND/FINDS sorts the entries.
+                                                                  }}}1
+
+=== License ===                                                   {{{1
+
+  GPLv2 [1].
+                                                                  }}}1
+
+=== References ===                                                {{{1
+
+  [1] GNU General Public License, version 2
+      http://www.opensource.org/licenses/GPL-2.0
+                                                                  }}}1
+
+--
+
+vim: set tw=70 sw=2 sts=2 et fdm=marker :
