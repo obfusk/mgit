@@ -1,0 +1,18 @@
+Source: mgit
+Section: devel
+Priority: optional
+Maintainer: Felix C. Stegerman <flx@obfusk.net>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.3
+Homepage: https://github.com/obfusk/mgit
+Vcs-Git: git://github.com/obfusk/mgit.git
+Vcs-Browser: https://github.com/obfusk/mgit
+
+Package: mgit
+Architecture: all
+Depends: ${misc:Depends}
+Description: multi-dir git wrapper
+ mgit runs a git command in multiple repositories.  For example, to
+ run >> git status << in all git repositories in ~/dev:
+ .
+ $ mgit F ~/dev status | less
