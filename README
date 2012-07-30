@@ -2,10 +2,10 @@
 
 File        : README
 Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-Date        : 2012-06-27
+Date        : 2012-07-30
 
 Copyright   : Copyright (C) 2012  Felix C. Stegerman
-Version     : v0.1.0
+Version     : v0.1.1
 
 --                                                                }}}1
 
@@ -13,7 +13,10 @@ Version     : v0.1.0
 
   mgit - multi-dir git wrapper
 
-  ...
+  mgit runs a git command in multiple repositories.  For example, to
+  run >> git status << in all git repositories in ~/dev:
+
+  $ mgit F ~/dev status | less
                                                                   }}}1
 
 === Usage ===                                                     {{{1
@@ -35,8 +38,20 @@ Version     : v0.1.0
     IN                              # git in <lines on STDIN>
 
 
-  FIND/FINDS/SUB/SUBS only use dirs w/ .git subdir.
-  FIND/FINDS sorts the entries.
+  Abbreviations: D[IR][S], F[IND][S], S[UB][S], E[NV], I[N].
+
+  FIND[S]/SUB[S] only visit dirs w/ .git subdir.
+  FIND[S] sorts the dirs.
+                                                                  }}}1
+
+=== Installing ===                                                {{{1
+
+  Get it at https://github.com/obfusk/mgit.
+
+  === Homebrew ===
+
+    $ brew tap obfusk/tap
+    $ brew install mgit
                                                                   }}}1
 
 === License ===                                                   {{{1

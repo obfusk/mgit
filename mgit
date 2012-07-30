@@ -11,7 +11,7 @@
 #
 # --                                                            # }}}1
 
-vsn='0.1.0'
+vsn='0.1.1'
 
 usage='mgit { {DIR,FIND,SUB} <dir> | {DIR,FIND,SUB}S <dir(s)> END'
 usage+=' | ENV | IN }'$'\n''            <git-cmd> [ <arg(s)> ]'
